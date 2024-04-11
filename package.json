@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "es-dev-server": "^2.1.0",
+    "phaser": "^3.80.1"
+  }
+}
