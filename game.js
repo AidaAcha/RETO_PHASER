@@ -1,5 +1,3 @@
-
-
 export class Game extends Phaser.Scene {
     constructor(){
         super({key:'game'})
@@ -14,10 +12,16 @@ export class Game extends Phaser.Scene {
     create(){
         this.add.image(400, 266.5, 'background')
 
-        const button = new CustomButton(this, 400, 400, 'button_spritesheet', 48, 16, 'Haz clic', { fontSize: '24px', fill: '#000' }, 4, () => {
-            console.log('¡Has hecho clic en el botón!');
+        this.symbol = new Symbol(this, 400, 200, 'bubble', 5)
+
+        this.button = new CustomButton(this, 400, 400, 'button_spritesheet', 48, 16, 'Haz clic', { fontSize: '24px', fill: '#000' }, 4, () => {
+            this.symbol.playActiveSymbol()
         });
 
-        const symbol = new Symbol(this, 400, 200, 'bubble', 5)
+        
+
+        this.symbol.playIdleAnimation()
     }
+
+    
 }
