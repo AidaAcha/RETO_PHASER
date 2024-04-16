@@ -56,21 +56,18 @@ export class Symbol extends GameObjects.Container{
     };
 
     vibrarObjeto() {
-        // Crear la animación de vibración
-        return new Promise<void>((resolve) => {
             // Crear la animación de vibración
-            const vibracion = this.scene.tweens.create({
-                targets: this.mySprite,
-                x: '+=10', // Mover el objeto 10 píxeles hacia la derecha
-                yoyo: true,
-                repeat: 3, // Repetir la animación 3 veces
-                duration: 50,
-                onComplete: () => {
-                    // Esta función se ejecutará cuando la animación de vibración esté completa
-                    // Resolvemos la promesa para indicar que la animación ha terminado
-                    resolve();
-                }
-            });
+        const vibracion = this.scene.tweens.add({
+            targets: this.mySprite,
+            x: '+=10', // Mover el objeto 10 píxeles hacia la derecha
+            yoyo: true,
+            repeat: 3, // Repetir la animación 3 veces
+            duration: 50,
+            onComplete: () => {
+                // Esta función se ejecutará cuando la animación de vibración esté completa
+                // Resolvemos la promesa para indicar que la animación ha terminado
+                this.playIdleAnimation();
+            }
         });
     }
 }
