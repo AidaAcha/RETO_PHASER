@@ -47,7 +47,7 @@ export class Game extends Scene
         }, 
         () =>{
             
-            this.mySymbol.vibrarObjeto();
+            this.mySymbol.tweensObjet();
         });
 
         

@@ -4,10 +4,11 @@ import { myAnimation } from './Interfaces';
 export class Symbol extends GameObjects.Container{
     
     //porque no puedo poner const a una interfaz? 
-    
+    bTWeens: boolean;
     mySprite: Phaser.GameObjects.Sprite;
     animIdle: any;
     animActive: any;
+    myTweens: Phaser.Tweens.Tween;
 
 
 
@@ -55,17 +56,26 @@ export class Symbol extends GameObjects.Container{
         });
     };
 
-    vibrarObjeto() {
+    tweensObjet() {
+
+        if(this.bTWeens) return;
+        this.bTWeens = true;
+        if(this.myTweens && this.myTweens.isActive()){
+            this.myTweens.remove();
+        }
+
             // Crear la animación de vibración
-        const vibracion = this.scene.tweens.add({
+        this.myTweens = this.scene.tweens.add({
+           
             targets: this.mySprite,
             x: '+=10', // Mover el objeto 10 píxeles hacia la derecha
             yoyo: true,
             repeat: 3, // Repetir la animación 3 veces
-            duration: 50,
+            duration: 100,
             onComplete: () => {
                 // Esta función se ejecutará cuando la animación de vibración esté completa
                 // Resolvemos la promesa para indicar que la animación ha terminado
+                this.bTWeens = false;
                 this.playIdleAnimation();
             }
         });
