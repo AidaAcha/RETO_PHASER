@@ -1,6 +1,7 @@
 import { Scene } from 'phaser';
 import { CustomButton } from '../objects/CustomButton';
 import { Symbol } from '../objects/Symbol'
+import { MySymbolPrize } from '../objects/MySymbolPrize'
 
 export class Game extends Scene
 {
@@ -9,6 +10,7 @@ export class Game extends Scene
     msg_text : Phaser.GameObjects.Text;
     myButton : CustomButton;
     mySymbol : Symbol;
+    mySymbolPrize : MySymbolPrize;
 
     constructor ()
     {
@@ -38,8 +40,10 @@ export class Game extends Scene
 
         this.background = this.add.image(512, 384, 'backgroundOcean');
         this.background.setScale(2);
+        
+        this.mySymbolPrize = new MySymbolPrize(this, 512, 200, 'pets_spriteSheet', 6);
 
-        this.mySymbol = new Symbol(this, 512, 200, 'bubble', 6);
+        this.mySymbol = new Symbol(this, 512, 200, 'bubble', this.mySymbolPrize, 6);
 
         this.myButton = new CustomButton(this, 512, 500, 'button_spritesheet', 4, () => {
 

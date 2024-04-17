@@ -36,6 +36,7 @@ export class Preloader extends Scene
         this.load.image('backgroundOcean', 'backgroundOcean.jpg')
         this.load.spritesheet('bubble', 'bubble.png', { frameWidth: 32, frameHeight: 32 });
         this.load.spritesheet('button_spritesheet', 'button.png', { frameWidth: 48, frameHeight: 16 });
+        this.load.spritesheet('pets_spriteSheet', 'pets.png', {frameWidth: 200, frameHeight: 174});
     }
 
     create ()

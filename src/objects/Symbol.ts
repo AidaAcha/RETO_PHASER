@@ -1,30 +1,30 @@
 import { Scene, GameObjects } from "phaser";
 import { myAnimation } from './Interfaces';
+import { MySymbolPrize } from "./MySymbolPrize";
 
 export class Symbol extends GameObjects.Container{
     
     //porque no puedo poner const a una interfaz? 
     bTWeens: boolean;
-    mySprite: Phaser.GameObjects.Sprite;
+    mySpriteSymbol: Phaser.GameObjects.Sprite;
     animIdle: any;
     animActive: any;
     myTweens: Phaser.Tweens.Tween;
+    mySpritePrize: MySymbolPrize;
 
-
-
-    constructor(scene: Scene, x: number, y: number, texture: string, scaleMultiplier: number){
+    constructor(scene: Scene, x: number, y: number, textureSymbol: string, myPrize:MySymbolPrize, scaleMultiplier: number){
         super(scene, x, y);
 
         const animInterfIdle: myAnimation = {
             key: 'idle',
-            frames: this.scene.anims.generateFrameNumbers(texture, { frames: [0, 1] }),
+            frames: this.scene.anims.generateFrameNumbers(textureSymbol, { frames: [0, 1] }),
             frameRate: 5,
             repeat: -1
         };
 
         const animInterfActive: myAnimation = {
             key: 'active',
-            frames: this.scene.anims.generateFrameNumbers(texture, {frames: [2, 3, 4, 5]}),
+            frames: this.scene.anims.generateFrameNumbers(textureSymbol, {frames: [2, 3, 4, 5]}),
             frameRate: 5,
             repeat: 0 // repeat indefinitely
         };
@@ -32,26 +32,31 @@ export class Symbol extends GameObjects.Container{
         this.animIdle = scene.anims.create(animInterfIdle);
         this.animActive = scene.anims.create(animInterfActive);
         
-        this.mySprite = scene.add.sprite(0, 0, texture);
-        this.add(this.mySprite);
+        this.mySpriteSymbol = scene.add.sprite(0, 0, textureSymbol);
+        this.add(this.mySpriteSymbol);
 
-        this.mySprite.setScale(scaleMultiplier);
+        this.mySpriteSymbol.setScale(scaleMultiplier);
+
+        this.mySpritePrize = myPrize;
+
         scene.add.existing(this);
         this.playIdleAnimation();
     };
 
     playIdleAnimation(){
-        this.mySprite.play('idle', true);
+        this.mySpritePrize.visible = false;
+        this.mySpriteSymbol.play('idle', true);
     };
 
     playActiveSymbol(){
         
-        this.mySprite.play('active', true)
+        this.mySpriteSymbol.play('active', true)
 
-        this.mySprite.on('animationcomplete', (animation: Phaser.Animations.Animation) => {
+        this.mySpriteSymbol.on('animationcomplete', (animation: Phaser.Animations.Animation) => {
             if (animation.key === 'active') {
                 // If the first animation has completed, call playIdleAnimation() method to start the second animation
                 this.playIdleAnimation();
+                
             }
         });
     };
@@ -64,20 +69,24 @@ export class Symbol extends GameObjects.Container{
             this.myTweens.remove();
         }
 
-            // Crear la animación de vibración
+        this.mySpritePrize.showRandomImage();
+
         this.myTweens = this.scene.tweens.add({
            
-            targets: this.mySprite,
-            x: '+=10', // Mover el objeto 10 píxeles hacia la derecha
+            targets: this.mySpriteSymbol,
+            x: '+=10', 
             yoyo: true,
-            repeat: 3, // Repetir la animación 3 veces
+            repeat: 3, 
             duration: 100,
             onComplete: () => {
-                // Esta función se ejecutará cuando la animación de vibración esté completa
-                // Resolvemos la promesa para indicar que la animación ha terminado
+                
                 this.bTWeens = false;
                 this.playIdleAnimation();
             }
         });
+
+        
+        
+
     }
 }
